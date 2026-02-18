@@ -6,7 +6,7 @@ import { PageResponse, UserResponse } from '../models/user.model';
 @Injectable({
   providedIn: 'root',
 })
-export class TestConnection {
+export class UserService {
 private http = inject(HttpClient);
   // A URL deve ser exatamente a do @RequestMapping do seu Java
   private readonly API_URL = '/api/users';

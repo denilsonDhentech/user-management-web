@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TestConnection } from '../../services/test-connection';
+import { UserService } from '../../services/UserService';
 import { UserResponse } from '../../models/user.model';
 
 @Component({
@@ -11,7 +11,7 @@ import { UserResponse } from '../../models/user.model';
   styleUrl: './user-list.scss'
 })
 export class UserList implements OnInit {
-  private userService = inject(TestConnection);
+  private userService = inject(UserService);
 
   // Signal para armazenar a lista de usuários
   users = signal<UserResponse[]>([]);
