@@ -3,7 +3,7 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "analytics": "47d18155-0f9c-4ed9-ac86-baa53ab22de6"
+    "analytics": "433fc60d-28c8-47ab-b2a5-6d78d9e8632d"
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -25,29 +25,15 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              { "glob": "**/*", "input": "public" }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
+                { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" }
               ],
               "outputHashing": "all"
             },
@@ -61,26 +47,18 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": { "buildTarget": "user-management-web:build:production" },
+            "development": { "buildTarget": "user-management-web:build:development" }
+          },
+          "defaultConfiguration": "development",
           "options": {
             "proxyConfig": "proxy.conf.json"
-          },
-          "configurations": {
-            "production": {
-              "buildTarget": "user-management-web:build:production"
-            },
-            "development": {
-              "buildTarget": "user-management-web:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
+          }
         },
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "scripts": [],
-            "styles": [
-              "src/styles.scss"
-            ],
             "tsConfig": "tsconfig.spec.json"
           }
         }
