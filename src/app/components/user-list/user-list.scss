@@ -18,3 +18,27 @@
     color: #b91c1c;
   }
 }
+
+:host ::ng-deep {
+  .btn-actions {
+    .p-button {
+      color: #374151 !important; // Cor chumbo para contraste
+
+      .p-button-icon {
+        font-size: 1.1rem !important; // Tamanho ideal para 180Hz
+        color: #374151 !important;
+        font-weight: 700 !important;
+      }
+      &:hover {
+        background: rgba(0, 0, 0, 0.05) !important;
+      }
+    }
+  }
+
+  // Estilo para o item de exclusão (apenas para ADMIN)
+  .text-danger .p-menuitem-link {
+    .p-menuitem-text, .p-menuitem-icon {
+      color: #dc2626 !important;
+    }
+  }
+}
