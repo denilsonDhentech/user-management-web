@@ -9,11 +9,12 @@ import { TagModule } from 'primeng/tag';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
+import { UserEditDialog } from '../user-edit-dialog/user-edit-dialog';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, TagModule, MenuModule],
+  imports: [CommonModule, TableModule, ButtonModule, TagModule, MenuModule, UserEditDialog],
   templateUrl: './user-list.html',
   styleUrl: './user-list.scss'
 })
@@ -28,6 +29,8 @@ export class UserList implements OnInit {
   users = signal<UserResponse[]>([]);
   loading = signal(true);
   error = signal('');
+
+  isEditDialogVisible = signal(false);
 
   ngOnInit(): void {
     this.loadUsers();
@@ -78,10 +81,17 @@ export class UserList implements OnInit {
   }
 
   onEdit(user: UserResponse | null) {
-    if (user) console.log('Editando:', user.id);
+    if (user) {
+      this.selectedUser.set(user);
+      this.isEditDialogVisible.set(true);
+    }
   }
 
   onDelete(user: UserResponse | null) {
     if (user) console.log('Excluindo:', user.id);
+  }
+
+  handleSaveSuccess() {
+    this.loadUsers();
   }
 }

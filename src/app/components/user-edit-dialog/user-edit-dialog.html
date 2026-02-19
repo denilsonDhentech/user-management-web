@@ -1,0 +1,38 @@
+<p-dialog
+    header="Editar Usuário"
+    [(visible)]="visible"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '450px' }"
+    (onHide)="close()">
+
+    <div class="edit-form-container">
+        <div class="field">
+            <label for="name">Nome Completo</label>
+            <input pInputText id="name" [(ngModel)]="editData().name" class="w-full" />
+        </div>
+
+        <div class="field">
+            <label for="email">E-mail Corporativo</label>
+            <input pInputText id="email" [(ngModel)]="editData().email" class="w-full" />
+        </div>
+
+        <div class="field">
+            <label for="password">Nova Senha (Necessário para confirmar)</label>
+            <p-password
+                id="password"
+                [(ngModel)]="editData().password"
+                [toggleMask]="true"
+                [feedback]="false"
+                placeholder="Digite a nova senha"
+                class="w-full"
+                inputStyleClass="w-full" />
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <p-button label="Cancelar" icon="pi pi-times" [text]="true" severity="secondary" (click)="close()" />
+        <p-button label="Atualizar" icon="pi pi-check" [loading]="loading()" (click)="save()" />
+    </ng-template>
+</p-dialog>

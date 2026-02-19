@@ -1,0 +1,26 @@
+.edit-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-top: 1rem;
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        label {
+            font-weight: 500;
+            color: #4b5563;
+        }
+    }
+}
+
+:host ::ng-deep .p-password {
+    display: flex;
+    width: 100%;
+}
+
+:host ::ng-deep .p-password input {
+    width: 100%;
+}

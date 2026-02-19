@@ -6,6 +6,12 @@ export interface UserResponse {
   active: boolean;
 }
 
+export interface UserUpdateRequest {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export interface PageResponse<T> {
   content: T[];
   totalElements: number;
