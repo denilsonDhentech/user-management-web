@@ -3,9 +3,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "types": ["jasmine", "node"],
-    "ignoreDeprecations": "5.0",
+    "types": ["node"],
     "paths": {
       "@primeng/themes/*": ["./node_modules/@primeng/themes/*"]
     },

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PageResponse, UserResponse } from '../models/user.model';
+import { PageResponse, UserResponse, UserUpdateRequest } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +25,9 @@ export class UserService {
       .set('size', size.toString());
 
     return this.http.get<PageResponse<UserResponse>>(`${this.API_URL}/search`, { params });
+  }
+
+  updateUser(id: string, userData: UserUpdateRequest): Observable<UserResponse> {
+    return this.http.put<UserResponse>(`/api/users/${id}`, userData);
   }
 }
