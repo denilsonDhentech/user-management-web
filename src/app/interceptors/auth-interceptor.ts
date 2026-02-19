@@ -3,7 +3,6 @@ import { HttpInterceptorFn } from '@angular/common/http';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = localStorage.getItem('token');
 
-  // Clonamos a requisição para adicionar o cabeçalho Authorization
   if (token) {
     const cloned = req.clone({
       setHeaders: {

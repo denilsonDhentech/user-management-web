@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule], // Necessário para usar o ngModel no HTML
+  imports: [FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -14,7 +14,6 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  // Signals para os campos do formulário
   email = signal('');
   password = signal('');
   errorMessage = signal('');
@@ -26,7 +25,7 @@ export class Login {
     }).subscribe({
       next: (response) => {
         console.log('Token recebido:', response.token);
-        this.router.navigate(['/users']); // Navega após o sucesso
+        this.router.navigate(['/users']);
       },
       error: (err) => {
         this.errorMessage.set('E-mail ou senha incorretos.');

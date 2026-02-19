@@ -9,11 +9,9 @@ import { AuthService } from './services/auth';
   imports: [RouterOutlet, Navbar],
   template: `
     <div [class.my-app-dark]="isDarkMode()" class="min-h-screen">
-
-      @if (auth.isAuthenticated()) {
+      @if (authService.isAuthenticated()) {
         <app-navbar />
       }
-
       <main>
         <router-outlet />
       </main>
@@ -21,6 +19,6 @@ import { AuthService } from './services/auth';
   `
 })
 export class App {
+  public authService = inject(AuthService);
   isDarkMode = signal(false);
-  public auth = inject(AuthService); // Injetamos o serviço para ler o Signal
 }

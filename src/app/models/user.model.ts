@@ -1,11 +1,11 @@
-// Representa o UserResponse que seu Java devolve
 export interface UserResponse {
-  id: string;   // O UUID do Java vira string no TS
+  id: string;
   name: string;
   email: string;
+  role: string;
+  active: boolean;
 }
 
-// Representa a estrutura de paginação do Spring Data
 export interface PageResponse<T> {
   content: T[];
   totalElements: number;
