@@ -1,8 +1,24 @@
 import { Routes } from '@angular/router';
 import { Login } from './components/login/login';
-import { UserList } from './components/user-list/user-list';
+import { authGuard } from './guards/auth';
+
 export const routes: Routes = [
-  { path: 'login', component: Login },
-  { path: 'users', component: UserList },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  {
+    path: 'login',
+    component: Login
+  },
+  {
+    path: 'users',
+    canActivate: [authGuard],
+    loadComponent: () => import('./components/user-list/user-list').then(m => m.UserList)
+  },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: '/login'
+  }
 ];

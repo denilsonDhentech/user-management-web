@@ -7,16 +7,23 @@ import { PageResponse, UserResponse } from '../models/user.model';
   providedIn: 'root',
 })
 export class UserService {
-private http = inject(HttpClient);
-  // A URL deve ser exatamente a do @RequestMapping do seu Java
+  private http = inject(HttpClient);
   private readonly API_URL = '/api/users';
 
-checkBackend(): Observable<PageResponse<UserResponse>> {
+  listUsers(page: number = 0, size: number = 10): Observable<PageResponse<UserResponse>> {
     const params = new HttpParams()
-      .set('page', '0')
-      .set('size', '10');
+      .set('page', page.toString())
+      .set('size', size.toString());
 
     return this.http.get<PageResponse<UserResponse>>(this.API_URL, { params });
   }
 
+  searchUsers(query: string, page: number = 0, size: number = 10): Observable<PageResponse<UserResponse>> {
+    const params = new HttpParams()
+      .set('search', query)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<PageResponse<UserResponse>>(`${this.API_URL}/search`, { params });
+  }
 }
