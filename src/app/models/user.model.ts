@@ -19,3 +19,9 @@ export interface PageResponse<T> {
   size: number;
   number: number;
 }
+
+export interface UserCreateRequest {
+  name: string;
+  email: string;
+  password: string;
+}

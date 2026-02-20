@@ -6,6 +6,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { MessageModule } from 'primeng/message';
+import { UserService } from '../../services/UserService';
+import { UserCreateRequest } from '../../models/user.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-user-create',
@@ -23,6 +26,9 @@ export class UserCreate {
   private fb = inject(FormBuilder);
   private router = inject(Router);
 
+  private userService = inject(UserService);
+  private messageService = inject(MessageService);
+
   loading = signal(false);
 
   userForm = this.fb.group({
@@ -34,7 +40,25 @@ export class UserCreate {
   onSubmit() {
     if (this.userForm.valid) {
       this.loading.set(true);
-      console.log('Dados para o Spring Boot:', this.userForm.value);
+
+      const newUser = this.userForm.value as UserCreateRequest;
+
+      this.userService.createUser(newUser).subscribe({
+        next: (response) => {
+          this.loading.set(false);
+          this.router.navigate(['/users']);
+        },
+        error: (err) => {
+          this.loading.set(false);
+          console.error('Erro ao criar usuário:', err);
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Falha ao salvar usuário.'
+          });
+        }
+      });
     }
   }
 
