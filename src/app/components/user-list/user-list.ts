@@ -10,6 +10,7 @@ import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
 import { UserEditDialog } from '../user-edit-dialog/user-edit-dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -21,6 +22,7 @@ import { UserEditDialog } from '../user-edit-dialog/user-edit-dialog';
 export class UserList implements OnInit {
   private userService = inject(UserService);
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   selectedUser = signal<UserResponse | null>(null);
 
@@ -93,5 +95,9 @@ export class UserList implements OnInit {
 
   handleSaveSuccess() {
     this.loadUsers();
+  }
+
+  goToCreateUser() {
+    this.router.navigate(['/users/new']);
   }
 }

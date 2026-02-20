@@ -5,10 +5,6 @@
   margin: 1rem;
   box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
 
-  h2 {
-    margin-bottom: 1.5rem;
-    color: var(--text-color);
-  }
 
   .error-container {
     margin-top: 1rem;
@@ -20,12 +16,33 @@
 }
 
 :host ::ng-deep {
+  .text-right {
+    text-align: right !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+  }
+
+  .grid {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+
+  p-table {
+    display: block;
+    margin-top: 2rem !important;
+  }
+
+  .justify-content-end {
+    justify-content: flex-end !important;
+  }
+
   .btn-actions {
     .p-button {
-      color: #374151 !important; // Cor chumbo para contraste
+      color: #374151 !important;
 
       .p-button-icon {
-        font-size: 1.1rem !important; // Tamanho ideal para 180Hz
+        font-size: 1.1rem !important;
         color: #374151 !important;
         font-weight: 700 !important;
       }
@@ -35,10 +52,21 @@
     }
   }
 
-  // Estilo para o item de exclusão (apenas para ADMIN)
   .text-danger .p-menuitem-link {
     .p-menuitem-text, .p-menuitem-icon {
       color: #dc2626 !important;
+    }
+  }
+
+  .ml-auto {
+    margin-left: auto !important;
+  }
+
+  @media screen and (min-width: 768px) {
+    .justify-content-end {
+      display: flex !important;
+      justify-content: flex-end !important;
+      text-align: right;
     }
   }
 }

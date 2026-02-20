@@ -1,5 +1,21 @@
-<div class="card">
-  <h2>Usuários Cadastrados</h2>
+<div class="card p-4">
+  <div class="grid align-items-center w-full m-0 mb-4">
+
+    <div class="col-8">
+      <h2 class="m-0">Usuários Cadastrados</h2>
+    </div>
+
+    <div class="col-4 text-right">
+      <p-button
+        label="Novo Usuário"
+        icon="pi pi-plus"
+        severity="success"
+        [raised]="true"
+        (onClick)="goToCreateUser()">
+      </p-button>
+    </div>
+
+  </div>
 
   <p-table
     [value]="users()"
@@ -34,14 +50,13 @@
             [value]="user.active ? 'Ativo' : 'Inativo'">
           </p-tag>
         </td>
-        <td>
+        <td class="text-center">
           <p-menu #menu [model]="menuItems()" [popup]="true" appendTo="body"></p-menu>
-
           <p-button
             icon="pi pi-ellipsis-v"
             [rounded]="true"
             [text]="true"
-            class="btn-actions"
+            severity="secondary"
             (click)="onActionClick($event, menu, user)">
           </p-button>
         </td>
@@ -50,14 +65,15 @@
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="6">Nenhum usuário encontrado.</td>
+        <td colspan="6" class="text-center p-4">Nenhum usuário encontrado.</td>
       </tr>
     </ng-template>
   </p-table>
 
   @if (error()) {
-    <div class="error-container">
-      <p class="error-msg">{{ error() }}</p>
+    <div class="mt-4 p-3 border-round bg-red-50 text-red-600 border-1 border-red-200">
+      <i class="pi pi-exclamation-circle mr-2"></i>
+      {{ error() }}
     </div>
   }
 </div>
