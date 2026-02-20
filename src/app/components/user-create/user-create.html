@@ -1,14 +1,71 @@
-<div class="container p-4">
-  <p-card header="Cadastrar Novo Usuário">
-    <div class="flex flex-column gap-3">
-      <p>Área do formulário de criação...</p>
-    </div>
+<div class="form-container">
 
-    <ng-template pTemplate="footer">
-      <div class="flex gap-2 justify-content-end">
-        <p-button label="Cancelar" severity="secondary" (onClick)="goBack()"></p-button>
-        <p-button label="Salvar Usuário" severity="primary"></p-button>
+  <p-card header="Cadastrar Novo Usuário" styleClass="user-card shadow-4">
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="p-fluid">
+
+      <div class="input-group">
+        <label for="name">Nome Completo</label>
+        <input
+          pInputText
+          id="name"
+          formControlName="name"
+          placeholder="Digite o nome completo..."
+          class="p-inputtext-lg" />
+
+        @if (userForm.get('name')?.invalid && userForm.get('name')?.touched) {
+          <small class="error-text">O nome é obrigatório (mín. 3 caracteres).</small>
+        }
       </div>
-    </ng-template>
+
+      <div class="input-group">
+        <label for="email">E-mail Corporativo</label>
+        <input
+          pInputText
+          id="email"
+          formControlName="email"
+          placeholder="exemplo@dhentech.com.br"
+          class="p-inputtext-lg" />
+
+        @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+          <small class="error-text">Insira um e-mail válido (ex: nome@email.com).</small>
+        }
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha de Acesso</label>
+        <p-password
+          id="password"
+          formControlName="password"
+          [toggleMask]="true"
+          [feedback]="true"
+          inputStyleClass="p-inputtext-lg"
+          placeholder="Digite sua senha">
+        </p-password>
+
+        @if (userForm.get('password')?.invalid && userForm.get('password')?.touched) {
+          <small class="error-text">A senha deve conter no mínimo 6 caracteres.</small>
+        }
+      </div>
+
+      <div class="actions-group">
+        <p-button
+          label="Cancelar"
+          icon="pi pi-times"
+          severity="secondary"
+          [text]="true"
+          (onClick)="goBack()">
+        </p-button>
+        <p-button
+          label="Salvar Usuário"
+          icon="pi pi-check"
+          type="submit"
+          [disabled]="userForm.invalid"
+          [loading]="loading()"
+          severity="success">
+        </p-button>
+      </div>
+
+    </form>
   </p-card>
 </div>
