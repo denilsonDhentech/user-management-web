@@ -1,7 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/account/UserService';
-import { UserResponse } from '../../models/user.model';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -9,12 +8,12 @@ import { TagModule } from 'primeng/tag';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
-import { UserEditDialog } from '../user-edit-dialog/user-edit-dialog';
+import { UserResponse } from '../../models/accounts/user.model';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, TagModule, MenuModule, UserEditDialog],
+  imports: [CommonModule, TableModule, ButtonModule, TagModule, MenuModule],
   templateUrl: './user-list.html',
   styleUrl: './user-list.scss'
 })
@@ -56,29 +55,31 @@ export class UserList implements OnInit {
       menu.toggle(event);
   }
 
-  setupMenu(user: UserResponse) {
-const isOwnAccount = user.username === this.authService.userName();
 
-    const actions: MenuItem[] = [
-      {
-        label: 'Editar',
-        icon: 'pi pi-pencil',
-        disabled: !isOwnAccount && !this.authService.isAdmin(),
-        command: () => this.onEdit(user)
-      }
-    ];
+setupMenu(user: UserResponse) {
+  const isOwnAccount = user.username === this.authService.userName();
+  const isAdmin = this.authService.isAdmin();
 
-    if (this.authService.isAdmin() && !isOwnAccount) {
-      actions.push({
-        label: 'Excluir',
-        icon: 'pi pi-trash',
-        styleClass: 'text-danger',
-        command: () => this.onDelete(user)
-      });
+  const actions: MenuItem[] = [
+    {
+      label: 'Editar',
+      icon: 'pi pi-pencil',
+      disabled: !isOwnAccount && !isAdmin,
+      command: () => this.onEdit(user)
     }
+  ];
 
-    this.menuItems.set([{ label: 'Ações', items: actions }]);
+  if (isAdmin && !isOwnAccount) {
+    actions.push({
+      label: 'Excluir',
+      icon: 'pi pi-trash',
+      styleClass: 'text-danger',
+      command: () => this.onDelete(user)
+    });
   }
+
+  this.menuItems.set(actions);
+}
 
   onEdit(user: UserResponse | null) {
     if (user) {

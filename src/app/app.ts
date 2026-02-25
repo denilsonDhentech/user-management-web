@@ -17,4 +17,8 @@ export class App {
   toggleDarkMode() {
     this.isDarkMode.update(val => !val);
   }
+
+  setDarkMode(value: boolean) {
+    this.isDarkMode.set(value);
+  }
 }

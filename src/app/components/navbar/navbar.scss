@@ -1,0 +1,19 @@
+:host ::ng-deep {
+  .p-menubar-end {
+    display: flex;
+    align-items: center;
+
+    .flex.align-items-center.gap-3 {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      flex-wrap: nowrap !important;
+    }
+  }
+
+
+  .flex-column {
+    justify-content: center;
+    margin-right: 0.5rem;
+  }
+}

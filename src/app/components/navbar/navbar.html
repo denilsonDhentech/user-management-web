@@ -1,4 +1,4 @@
-<p-menubar [model]="items">
+<p-menubar [model]="items()">
   <ng-template #start>
     <div class="flex align-items-center mr-4">
       <span class="font-bold text-xl">DhenTech</span>
@@ -6,21 +6,36 @@
   </ng-template>
 
   <ng-template #end>
-    <div class="flex align-items-center gap-2">
-      <p-button
-        [icon]="app.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
-        (onClick)="toggleTheme()"
-        [rounded]="true"
-        [text]="true"
-        [severity]="$any(buttonSeverity())"
-        pTooltip="Alternar Tema" />
+    <div class="flex align-items-center gap-3">
 
-      <p-button
-        label="Sair"
-        icon="pi pi-sign-out"
-        severity="danger"
-        [text]="true"
-        (onClick)="logout()" />
+      @if (authService.isAuthenticated()) {
+        <div class="flex flex-column align-items-end line-height-2 mr-1">
+          <span class="font-bold text-sm white-space-nowrap">{{ authService.userName() }}</span>
+          <p-tag
+            [value]="authService.userRole() ?? undefined"
+            [severity]="$any(authService.isAdmin() ? 'success' : 'info')"
+            [rounded]="true"
+            styleClass="text-xs py-0 px-2" />
+        </div>
+      }
+
+      <div class="flex align-items-center gap-2">
+        <p-button
+          [icon]="app.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
+          (onClick)="toggleTheme()"
+          [rounded]="true"
+          [text]="true"
+          [severity]="$any(buttonSeverity())"
+          pTooltip="Alternar Tema" />
+
+        <p-button
+          label="Sair"
+          icon="pi pi-sign-out"
+          severity="danger"
+          [text]="true"
+          (onClick)="logout()" />
+      </div>
+
     </div>
   </ng-template>
 </p-menubar>

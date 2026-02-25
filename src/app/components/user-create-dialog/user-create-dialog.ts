@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { PasswordModule } from 'primeng/password';
-import { UserUpdateRequest } from '../../models/user.model';
+import { UserUpdateRequest } from '../../models/accounts/user.model';
 import { UserService } from '../../services/account/UserService';
 
 @Component({
@@ -70,16 +70,6 @@ export class UserCreateDialog {
   }
 
   save() {
-    if (!this.isFormValid()) return;
 
-    this.loading.set(true);
-    this.userService.createUser(this.formData()).subscribe({
-      next: () => {
-        this.onSave.emit();
-        this.close();
-        this.loading.set(false);
-      },
-      error: () => this.loading.set(false)
-    });
   }
 }

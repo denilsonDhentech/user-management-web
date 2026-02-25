@@ -1,47 +1,30 @@
-<div class="card">
-  <h2>Usuários Cadastrados</h2>
+<div class="card p-4">
+  <h2 class="m-0 mb-4">Usuários Cadastrados</h2>
 
-  <p-table
-    [value]="users()"
-    [loading]="loading()"
-    [paginator]="true"
-    [rows]="10"
-    [responsiveLayout]="'stack'"
-    styleClass="p-datatable-striped">
+  <p-table [value]="users()" [loading]="loading()" [paginator]="true" [rows]="10"
+    [responsiveLayout]="'stack'" styleClass="p-datatable-striped">
 
     <ng-template pTemplate="header">
       <tr>
         <th>ID (UUID)</th>
-        <th>Nome</th>
-        <th>E-mail</th>
-        <th>Cargo</th>
-        <th>Status</th>
-        <th style="width: 5rem">Ações</th>
+        <th>Usuário (Username)</th> <th>Cargo (Role)</th>
+        <th>Tenant ID</th> <th style="width: 5rem" class="text-right">Ações</th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-user>
       <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>
-          <p-tag [value]="user.role" severity="info"></p-tag>
+        <td><span class="text-xs text-secondary">{{ user.id }}</span></td>
+        <td><span class="font-bold">{{ user.username }}</span></td> <td>
+          <p-tag [value]="user.role" [severity]="user.role === 'ADMIN' ? 'success' : 'info'" [rounded]="true"></p-tag>
         </td>
         <td>
-          <p-tag
-            [severity]="user.active ? 'success' : 'danger'"
-            [value]="user.active ? 'Ativo' : 'Inativo'">
-          </p-tag>
+          <code class="text-xs">{{ user.tenantId }}</code>
         </td>
-        <td>
+        <td class="text-right">
           <p-menu #menu [model]="menuItems()" [popup]="true" appendTo="body"></p-menu>
 
-          <p-button
-            icon="pi pi-ellipsis-v"
-            [rounded]="true"
-            [text]="true"
-            class="btn-actions"
+          <p-button icon="pi pi-ellipsis-v" [rounded]="true" [text]="true" severity="secondary"
             (click)="onActionClick($event, menu, user)">
           </p-button>
         </td>
@@ -50,20 +33,14 @@
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="6">Nenhum usuário encontrado.</td>
+        <td colspan="5" class="text-center p-4">Nenhum usuário encontrado.</td>
       </tr>
     </ng-template>
   </p-table>
 
   @if (error()) {
-    <div class="error-container">
+    <div class="error-container mt-3">
       <p class="error-msg">{{ error() }}</p>
     </div>
   }
 </div>
-
-<app-user-edit-dialog
-    [(visible)]="isEditDialogVisible"
-    [user]="selectedUser()"
-    (onSave)="handleSaveSuccess()">
-</app-user-edit-dialog>

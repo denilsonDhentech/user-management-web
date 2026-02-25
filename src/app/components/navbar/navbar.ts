@@ -5,35 +5,49 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenuItem } from 'primeng/api';
 import { App } from '../../app';
+import { AuthService } from '../../services/auth.service';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, MenubarModule, ButtonModule, TooltipModule],
+  imports: [CommonModule, MenubarModule, ButtonModule, TooltipModule, TagModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss'     
+  styleUrl: './navbar.scss'
 })
 export class Navbar {
   public app = inject(App);
+  public authService = inject(AuthService);
 
-  items: MenuItem[] = [
-    {
-      label: 'Usuários',
-      icon: 'pi pi-users',
-      routerLink: '/users'
+  items = computed<MenuItem[]>(() => {
+    const menu: MenuItem[] = [
+      {
+        label: 'Documentos',
+        icon: 'pi pi-file',
+        routerLink: '/documents'
+      }
+    ];
+
+    if (this.authService.isAdmin()) {
+      menu.push({
+        label: 'Usuários',
+        icon: 'pi pi-users',
+        routerLink: '/users'
+      });
     }
-  ];
+
+    return menu;
+  });
 
   buttonSeverity = computed(() =>
     this.app.isDarkMode() ? 'warning' : 'secondary'
   );
 
   toggleTheme() {
-    this.app.isDarkMode.set(!this.app.isDarkMode());
+    this.app.setDarkMode(!this.app.isDarkMode());
   }
 
   logout() {
-    localStorage.removeItem('token');
-    window.location.href = '/login';
+    this.authService.logout();
   }
 }
