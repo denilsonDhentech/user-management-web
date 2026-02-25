@@ -1,0 +1,101 @@
+.upload-wrapper {
+    background-color: #e2e8f0;
+    min-height: calc(100vh - 70px);
+    width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box;
+    padding: 2rem;
+}
+
+.card-3d {
+    background: #ffffff;
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+    border-radius: 24px !important;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.1),
+        0 5px 15px rgba(0, 0, 0, 0.05),
+        inset 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+:host ::ng-deep {
+    .card-content {
+        padding: 1.5rem 2.5rem 2rem 2.5rem !important;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 0.5rem;
+
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #374151;
+        }
+    }
+
+    .p-inputtext-lg, .custom-textarea {
+        padding: 0.75rem 1rem !important;
+        border-radius: 12px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        background: #fdfdfd;
+
+        &:focus {
+            border-color: var(--primary-color) !important;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px var(--primary-100) !important;
+            outline: none;
+        }
+    }
+
+    .button-3d {
+        .p-fileupload-choose {
+            width: 100% !important;
+            display: flex;
+            justify-content: center;
+            padding: 0.85rem 1rem;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+
+            &:active {
+                transform: translateY(2px);
+                box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+            }
+        }
+    }
+
+    .p-button.p-button-success {
+        border-radius: 12px !important;
+        padding: 0.85rem 1.5rem;
+        box-shadow: 0 4px 0 rgba(21, 128, 61, 0.3);
+
+        &:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(21, 128, 61, 0.3);
+        }
+    }
+
+    .card-footer {
+        padding: 1.5rem 2.5rem !important;
+        border-top: 1px solid #e5e7eb;
+        margin-top: 1.5rem;
+    }
+}
+
+// Badge do arquivo selecionado
+.file-info-badge {
+    border-radius: 12px;
+    border: 1px solid #bfdbfe;
+    background-color: #eff6ff;
+    padding: 1rem;
+}

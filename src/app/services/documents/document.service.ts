@@ -26,15 +26,7 @@ export class DocumentService {
     return this.http.get<PageDocumentResponse>(this.API_URL, { params });
   }
 
-
-  upload(file: File, title: string): Observable<DocumentResponse> {
-    const formData = new FormData();
-
-    formData.append('file', file);
-
-    const metadata = JSON.stringify({ title });
-    formData.append('data', metadata);
-
+  create(formData: FormData): Observable<DocumentResponse> {
     return this.http.post<DocumentResponse>(this.API_URL, formData);
   }
 

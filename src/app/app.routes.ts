@@ -14,6 +14,11 @@ export const routes: Routes = [
       import('./components/document-list/document-list').then(m => m.DocumentList)
   },
   {
+    path: 'documents/upload',
+    loadComponent: () => import('./components/document-upload/document-upload').then(m => m.DocumentUpload),
+    canActivate: [authGuard]
+  },
+  {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'

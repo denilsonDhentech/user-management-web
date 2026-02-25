@@ -1,0 +1,59 @@
+<div class="upload-wrapper">
+  <div class="card-upload card-3d bg-white">
+
+    <div class="card-content">
+        <div class="flex align-items-center gap-3 mb-5 border-bottom-1 border-100 pb-3">
+            <p-button icon="pi pi-arrow-left" [text]="true" routerLink="/documents" severity="secondary" />
+            <div>
+                <h2 class="m-0 text-900">Upload de Novo Documento</h2>
+            </div>
+        </div>
+
+        <div class="flex flex-column gap-4">
+            <div class="field">
+                <label for="title">Título do Documento *</label>
+                <input pInputText id="title" [ngModel]="title()"
+                       (ngModelChange)="title.set($event)"
+                       class="w-full p-inputtext-lg" placeholder="Digite um título claro..." />
+            </div>
+
+            <div class="field">
+                <label for="description">Descrição</label>
+                <textarea id="description" pInputTextarea
+                    class="w-full custom-textarea"
+                    rows="4" [ngModel]="description()"
+                    (ngModelChange)="description.set($event)"
+                    placeholder="Resumo do conteúdo..."></textarea>
+            </div>
+
+            <div class="field">
+                <label for="tags">Tags (Separadas por vírgula)</label>
+                <input pInputText id="tags" [ngModel]="tagsRaw()"
+                       (ngModelChange)="tagsRaw.set($event)"
+                       class="w-full p-inputtext-lg" placeholder="financeiro, 2026, relatorio" />
+            </div>
+
+            <div class="field">
+                <label>Arquivo (PDF, PNG ou JPG) *</label>
+                <p-fileUpload mode="basic" chooseLabel="Selecionar Arquivo"
+                              accept=".pdf,.png,.jpg" (onSelect)="onFileSelect($event)"
+                              [auto]="false" styleClass="button-3d" />
+
+                @if (selectedFile()) {
+                    <div class="mt-3 file-info-badge flex align-items-center gap-3">
+                        <i class="pi pi-file text-blue-600 text-xl"></i>
+                        <span class="text-blue-800 font-medium">{{ selectedFile()?.name }}</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer flex justify-content-end gap-3">
+        <p-button label="Cancelar" [text]="true" severity="secondary" routerLink="/documents" />
+        <p-button label="Finalizar Upload" icon="pi pi-check"
+                  [loading]="loading()" [disabled]="!isFormValid()"
+                  (click)="save()" severity="success" />
+    </div>
+  </div>
+</div>
