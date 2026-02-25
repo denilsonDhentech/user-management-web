@@ -14,18 +14,18 @@
         </div>
 
         <div class="field">
-            <label for="email">E-mail Corporativo</label>
-            <input pInputText id="email" [(ngModel)]="editData().email" class="w-full" />
+            <label for="username">Nome de Usuário</label>
+            <input pInputText id="username" [(ngModel)]="editData().username" class="w-full" />
         </div>
 
         <div class="field">
-            <label for="password">Nova Senha (Necessário para confirmar)</label>
+            <label for="password">Nova Senha (Confirmar alteração)</label>
             <p-password
                 id="password"
                 [(ngModel)]="editData().password"
                 [toggleMask]="true"
                 [feedback]="false"
-                placeholder="Digite a nova senha"
+                placeholder="Digite a senha"
                 class="w-full"
                 inputStyleClass="w-full" />
         </div>

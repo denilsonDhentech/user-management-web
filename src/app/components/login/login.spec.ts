@@ -36,26 +36,26 @@ describe('Login', () => {
     expect(component).toBeTruthy();
   });
 
-  it('deve navegar para /users quando o login for bem-sucedido', () => {
+  it('deve navegar para /documents quando o login for bem-sucedido', () => {
     authServiceSpy.login.mockReturnValue(of({ token: 'jwt-token-valido' }));
 
-    component.email.set('admin@teste.com');
+    component.username.set('denilson_souza');
     component.password.set('123456');
 
     component.handleLogin();
 
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/users']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/documents']);
   });
 
   it('deve exibir mensagem de erro quando as credenciais forem inválidas', () => {
     authServiceSpy.login.mockReturnValue(throwError(() => new Error('Invalid credentials')));
 
-    component.email.set('errado@teste.com');
+    component.username.set('usuario_invalido');
     component.password.set('senha-errada');
 
     component.handleLogin();
 
-    expect(component.errorMessage()).toBe('E-mail ou senha incorretos.');
+    expect(component.errorMessage()).toBe('Usuário ou senha incorretos.');
     expect(routerSpy.navigate).not.toHaveBeenCalled();
   });
 });

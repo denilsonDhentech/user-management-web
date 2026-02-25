@@ -1,14 +1,13 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { LoginRequest, AuthResponse } from '../models/auth';
+import { LoginRequest, LoginResponse } from '../models/auth';
 import { tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
-// Interface para mapear os campos da sua API
 interface MyJwtPayload {
   sub?: string;
-  email?: string;
+  username?: string;
   role?: string;
 }
 
@@ -29,30 +28,27 @@ export class AuthService {
       const decoded = jwtDecode<MyJwtPayload>(token);
       return decoded.role || null;
     } catch (error) {
-      console.error('Erro ao decodificar token:', error);
       return null;
     }
   });
 
-  userEmail = computed(() => {
+  userName = computed(() => {
     const token = this.tokenSignal();
     if (!token) return null;
     try {
       const decoded = jwtDecode<MyJwtPayload>(token);
-      return decoded.sub || decoded.email || null;
+      return decoded.sub || decoded.username || null;
     } catch {
       return null;
     }
   });
 
-  getUserEmail(): string | null {
-    return this.userEmail();
-  }
-
   isAdmin = computed(() => this.userRole() === 'ADMIN');
+  isUser = computed(() => this.userRole() === 'USER' || this.userRole() === 'ADMIN');
+  isViewer = computed(() => !!this.userRole());
 
   login(credentials: LoginRequest) {
-    return this.http.post<AuthResponse>('/api/auth/login', credentials).pipe(
+    return this.http.post<LoginResponse>('/api/auth/login', credentials).pipe(
       tap(res => {
         localStorage.setItem(this.TOKEN_KEY, res.token);
         this.tokenSignal.set(res.token);

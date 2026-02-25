@@ -8,9 +8,10 @@ export const routes: Routes = [
     component: Login
   },
   {
-    path: 'users',
+    path: 'documents',
     canActivate: [authGuard],
-    loadComponent: () => import('./components/user-list/user-list').then(m => m.UserList)
+    loadComponent: () =>
+      import('./components/document-list/document-list').then(m => m.DocumentList)
   },
   {
     path: '',
