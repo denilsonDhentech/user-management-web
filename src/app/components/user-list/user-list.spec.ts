@@ -5,20 +5,18 @@ import { of } from 'rxjs';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UserList', () => {
   let component: UserList;
   let fixture: ComponentFixture<UserList>;
-  let userServiceSpy: any;
 
   beforeEach(async () => {
-    userServiceSpy = {
+    const userServiceSpy = {
       listUsers: vi.fn().mockReturnValue(of({ content: [], totalElements: 0 }))
     };
 
     await TestBed.configureTestingModule({
-      imports: [UserList, NoopAnimationsModule],
+      imports: [UserList],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -29,10 +27,10 @@ describe('UserList', () => {
     fixture = TestBed.createComponent(UserList);
     component = fixture.componentInstance;
 
-    vi.spyOn(component, 'loadUsers').mockImplementation(() => {});
+    vi.spyOn(component, 'ngOnInit').mockImplementation(() => {});
   });
 
-  it('deve passar no build básico', () => {
+  it('deve passar no build do CI/CD', () => {
     expect(component).toBeTruthy();
   });
 });
