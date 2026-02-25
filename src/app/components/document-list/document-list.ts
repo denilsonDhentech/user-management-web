@@ -7,11 +7,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { DocumentService } from '../../services/documents/document.service';
 import { DocumentResponse, DocumentFilter, DocumentStatus } from '../../models/documents/document.model';
+import { UserCreateDialog } from '../user-create-dialog/user-create-dialog';
 
 @Component({
   selector: 'app-document-list',
   standalone: true,
-  imports: [CommonModule, TableModule, TagModule, ButtonModule, InputTextModule, FormsModule],
+  imports: [CommonModule, TableModule, TagModule, ButtonModule, InputTextModule, FormsModule, UserCreateDialog],
   templateUrl: './document-list.html',
   styleUrl: './document-list.scss'
 })
@@ -22,10 +23,11 @@ export class DocumentList implements OnInit {
   totalRecords = signal(0);
   loading = signal(false);
 
+  isCreateUserVisible = signal(false);
+
   filters = signal<DocumentFilter>({
     title: '',
-    status: undefined,
-    tag: ''
+    status: undefined
   });
 
   ngOnInit() {
@@ -52,5 +54,9 @@ export class DocumentList implements OnInit {
       case DocumentStatus.ARCHIVED: return 'danger';
       default: return 'info';
     }
+  }
+
+  openUserCreate() {
+    this.isCreateUserVisible.set(true);
   }
 }
