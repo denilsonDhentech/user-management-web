@@ -14,21 +14,21 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  email = signal('');
+  username = signal('');
   password = signal('');
   errorMessage = signal('');
 
   handleLogin() {
     this.authService.login({
-      email: this.email(),
+      username: this.username(),
       password: this.password()
     }).subscribe({
       next: (response) => {
-        console.log('Token recebido:', response.token);
-        this.router.navigate(['/users']);
+        console.log('Login realizado com sucesso no GED');
+        this.router.navigate(['/documents']);
       },
       error: (err) => {
-        this.errorMessage.set('E-mail ou senha incorretos.');
+        this.errorMessage.set('Usuário ou senha incorretos.');
       }
     });
   }

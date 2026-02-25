@@ -1,14 +1,14 @@
 export interface UserResponse {
   id: string;
   name: string;
-  email: string;
+  username: string;
   role: string;
   active: boolean;
 }
 
 export interface UserUpdateRequest {
   name: string;
-  email: string;
+  username: string;
   password: string;
 }
 

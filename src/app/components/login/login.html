@@ -2,20 +2,26 @@
   <div class="auth-card">
     <div class="auth-header">
       <h1>Bem-vindo</h1>
-      <p>Acesse o Gerenciador de Usuários</p>
+      <p>Acesse o Gerenciador de Documentos</p>
     </div>
 
     <form (submit)="handleLogin(); $event.preventDefault()">
       <div class="input-group">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" [ngModel]="email()" (ngModelChange)="email.set($event)"
-               name="email" placeholder="Ex: admin@example.com" required>
+        <label for="username">Usuário</label>
+        <input type="text" id="username"
+               [ngModel]="username()"
+               (ngModelChange)="username.set($event)"
+               name="username"
+               placeholder="Seu nome de usuário" required>
       </div>
 
       <div class="input-group">
         <label for="password">Senha</label>
-        <input type="password" id="password" [ngModel]="password()" (ngModelChange)="password.set($event)"
-               name="password" placeholder="••••••••" required>
+        <input type="password" id="password"
+               [ngModel]="password()"
+               (ngModelChange)="password.set($event)"
+               name="password"
+               placeholder="••••••••" required>
       </div>
 
       @if (errorMessage()) {

@@ -57,7 +57,7 @@ export class UserList implements OnInit {
   }
 
   setupMenu(user: UserResponse) {
-    const isOwnAccount = user.email === this.authService.getUserEmail();
+const isOwnAccount = user.username === this.authService.userName();
 
     const actions: MenuItem[] = [
       {

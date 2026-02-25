@@ -6,7 +6,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { UserResponse, UserUpdateRequest } from '../../models/user.model';
 import { UserService } from '../../services/UserService';
-
 import { PasswordModule } from 'primeng/password';
 
 @Component({
@@ -25,7 +24,7 @@ export class UserEditDialog {
       this.userId = data.id;
       this.editData.set({
         name: data.name,
-        email: data.email,
+        username: data.username, 
         password: ''
       });
     }
@@ -38,9 +37,10 @@ export class UserEditDialog {
 
   editData = signal<UserUpdateRequest>({
     name: '',
-    email: '',
+    username: '',
     password: ''
   });
+
   loading = signal(false);
 
   close() {
