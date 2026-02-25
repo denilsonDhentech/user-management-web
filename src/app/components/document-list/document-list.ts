@@ -27,28 +27,7 @@ export class DocumentList implements OnInit {
 
   selectedDoc: DocumentResponse | null = null;
 
-  actionMenuItems: MenuItem[] = [
-    {
-      label: 'Ações do Arquivo',
-      items: [
-        {
-          label: 'Baixar',
-          icon: 'pi pi-download',
-          command: () => this.selectedDoc && this.download(this.selectedDoc)
-        },
-        {
-          label: 'Nova Versão',
-          icon: 'pi pi-upload',
-          command: () => this.triggerFileUpload()
-        },
-        {
-          label: 'Histórico',
-          icon: 'pi pi-history',
-          command: () => this.router.navigate(['/documents', this.selectedDoc?.id, 'history'])
-        }
-      ]
-    }
-  ];
+  actionMenuItems: MenuItem[] = [];
 
   @ViewChild('fileInput') fileInput!: ElementRef;
 
@@ -65,7 +44,33 @@ export class DocumentList implements OnInit {
 
   ngOnInit() {
     this.loadDocuments();
+    this.initializeMenu();
   }
+
+initializeMenu() {
+  this.actionMenuItems = [
+    { label: 'Baixar', icon: 'pi pi-download', command: () => this.download(this.selectedDoc!) },
+    { label: 'Nova Versão', icon: 'pi pi-upload', command: () => this.triggerFileUpload() },
+    { label: 'Histórico', icon: 'pi pi-history', command: () => this.router.navigate(['/documents', this.selectedDoc?.id, 'history']) },
+    { separator: true },
+    { label: 'Publicar', icon: 'pi pi-check-circle', command: () => this.updateStatus('PUBLISHED') },
+    { label: 'Arquivar', icon: 'pi pi-box', command: () => this.updateStatus('ARCHIVED') }
+  ];
+}
+
+prepareMenu(event: Event, menu: any, doc: DocumentResponse) {
+  this.selectedDoc = doc;
+  const isArchived = doc.status === DocumentStatus.ARCHIVED;
+  const isPublished = doc.status === DocumentStatus.PUBLISHED;
+
+  this.actionMenuItems.forEach(item => {
+    if (item.label === 'Nova Versão') item.disabled = isArchived;
+    if (item.label === 'Publicar') item.disabled = isPublished || isArchived;
+    if (item.label === 'Arquivar') item.disabled = isArchived;
+  });
+
+  menu.toggle(event);
+}
 
   loadDocuments(page: number = 0) {
     this.loading.set(true);
@@ -151,5 +156,25 @@ export class DocumentList implements OnInit {
         }
       });
     }
+  }
+
+  updateStatus(newStatus: string) {
+    if (!this.selectedDoc) return;
+    this.loading.set(true);
+
+    this.documentService.changeStatus(this.selectedDoc.id, newStatus).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Status Atualizado',
+          detail: `Documento movido para ${newStatus}.`
+        });
+        this.loadDocuments();
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao mudar status.' });
+        this.loading.set(false);
+      }
+    });
   }
 }

@@ -45,7 +45,7 @@
         <td>{{ doc.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
         <td class="text-right">
           <p-button icon="pi pi-ellipsis-v" [text]="true" severity="secondary"
-            (click)="selectedDoc = doc; menu.toggle($event)" pTooltip="Ações" />
+            (click)="prepareMenu($event, menu, doc)" pTooltip="Ações" />
 
           <p-menu #menu [model]="actionMenuItems" [popup]="true" appendTo="body" />
         </td>
