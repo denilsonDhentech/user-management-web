@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: nowrap; 
+  flex-wrap: nowrap;
 
   .buttons-wrapper {
     display: flex;
@@ -30,4 +30,34 @@
 
 #fileInput {
   display: none;
+}
+
+.card {
+  padding: 1.5rem;
+  padding-left: 2rem;
+  margin: 1rem;
+  background: var(--surface-card);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.05);
+
+  .header-container {
+    h2 {
+      margin-left: 0.5rem;
+      color: var(--text-color);
+    }
+  }
+}
+
+.flex.mb-4, .p-datatable {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.filterCustom {
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
+
+.action-th-custom {
+  width: 5rem
 }

@@ -1,35 +1,24 @@
 <div class="card p-4">
-  <input type="file" #fileInput style="display: none" (change)="onNewVersionFileSelected($event)" accept=".pdf,.png,.jpg">
+  <input type="file" #fileInput style="display: none" (change)="onNewVersionFileSelected($event)"
+    accept=".pdf,.png,.jpg">
 
   <div class="header-container flex justify-content-between align-items-center mb-4">
-    <h2 class="m-0 font-bold text-2xl">Gestão de Documentos</h2>
+    <h2 class="m-0 font-bold text-2xl" st>Gestão de Documentos</h2>
 
     <div class="flex gap-2 buttons-wrapper">
-      <p-button
-        label="Novo Usuário"
-        icon="pi pi-user-plus"
-        [text]="true"
-        severity="secondary"
+      @if (authService.isAdmin()) {
+      <p-button label="Novo Usuário" icon="pi pi-user-plus" [text]="true" severity="secondary"
         (click)="isCreateUserVisible.set(true)" />
-
-      <p-button
-        label="Upload de Arquivo"
-        icon="pi pi-upload"
-        severity="success"
-        (click)="goToUpload()" />
+      }
+      <p-button label="Upload de Arquivo" icon="pi pi-upload" severity="success" (click)="goToUpload()" />
     </div>
   </div>
 
   <div class="flex mb-4">
     <span class="p-input-icon-left w-full">
-      <i class="pi pi-search"></i>
-      <input
-        pInputText
-        type="text"
-        placeholder="Filtrar por título..."
-        class="w-full"
-        [(ngModel)]="filters().title"
-        (input)="loadDocuments()" />
+      <i class="pi pi-search filterCustom"></i>
+      <input pInputText type="text" placeholder="Filtrar por título..." class="w-full filterCustom"
+        [(ngModel)]="filters().title" (input)="loadDocuments()" />
     </span>
   </div>
 
@@ -44,7 +33,7 @@
         <th>Status</th>
         <th>Versões</th>
         <th>Criado em</th>
-        <th style="width: 5rem" class="text-right">Ações</th>
+        <th class="text-center action-th-custom">Ações</th>
       </tr>
     </ng-template>
 
@@ -58,8 +47,8 @@
           <i class="pi pi-copy mr-2"></i>{{ doc.versionCount }}
         </td>
         <td>{{ doc.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
-        <td class="text-right">
-          <p-button icon="pi pi-ellipsis-v" [text]="true" severity="secondary"
+        <td class="text-center">
+          <p-button icon="pi pi-ellipsis-v" [text]="true" severity="secondary" [rounded]="true"
             (click)="prepareMenu($event, menu, doc)" pTooltip="Ações" />
 
           <p-menu #menu [model]="actionMenuItems" [popup]="true" appendTo="body" />
