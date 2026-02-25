@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<p-toast />
+
+<div [class.my-app-dark]="isDarkMode()" class="min-h-screen">
+  @if (authService.isAuthenticated()) {
+    <app-navbar />
+  }
+
+  <main class="layout-wrapper">
+    <router-outlet />
+  </main>
+</div>

@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { DocumentService } from '../../services/documents/document.service';
 import { DocumentResponse, DocumentFilter, DocumentStatus } from '../../models/documents/document.model';
 import { UserCreateDialog } from '../user-create-dialog/user-create-dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-document-list',
@@ -18,6 +19,7 @@ import { UserCreateDialog } from '../user-create-dialog/user-create-dialog';
 })
 export class DocumentList implements OnInit {
   private documentService = inject(DocumentService);
+  private router = inject(Router);
 
   documents = signal<DocumentResponse[]>([]);
   totalRecords = signal(0);
@@ -58,5 +60,9 @@ export class DocumentList implements OnInit {
 
   openUserCreate() {
     this.isCreateUserVisible.set(true);
+  }
+
+  goToUpload() {
+    this.router.navigate(['/documents/upload']);
   }
 }
