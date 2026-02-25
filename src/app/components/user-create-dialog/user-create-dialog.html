@@ -1,0 +1,54 @@
+<p-dialog header="Novo Usuário" [(visible)]="visible" [style]="{ width: '500px' }" (onHide)="close()">
+
+    <div class="flex flex-column gap-4 py-3">
+        <div class="field flex flex-column gap-2">
+            <label for="new-username" class="font-bold">Nome de Usuário</label>
+            <input pInputText id="new-username"
+                   [ngModel]="formData().username"
+                   (ngModelChange)="formData.set({...formData(), username: $event})"
+                   [class.ng-invalid]="formData().username && !isUsernameValid()"
+                   class="w-full p-inputtext-lg" placeholder="mín. 3 caracteres" />
+            @if (formData().username && !isUsernameValid()) {
+                <small class="text-red-500">O usuário deve ter entre 3 e 50 caracteres.</small>
+            }
+        </div>
+
+        <div class="field flex flex-column gap-2">
+            <label for="tenant-id" class="font-bold">ID da Organização (Tenant)</label>
+            <input pInputText id="tenant-id"
+                   [ngModel]="formData().tenantId"
+                   (ngModelChange)="formData.set({...formData(), tenantId: $event})"
+                   class="w-full p-inputtext-lg" placeholder="Ex: T1" />
+        </div>
+
+        <div class="field flex flex-column gap-2">
+            <label for="new-password" class="font-bold">Senha Inicial</label>
+            <p-password id="new-password"
+                [ngModel]="formData().password"
+                (ngModelChange)="formData.set({...formData(), password: $event})"
+                [toggleMask]="true" [feedback]="true"
+                promptLabel="Mínimo 6 caracteres"
+                inputStyleClass="w-full p-inputtext-lg" />
+            @if (formData().password && !isPasswordValid()) {
+                <small class="text-red-500">A senha deve ter pelo menos 6 caracteres.</small>
+            }
+        </div>
+
+        <div class="field flex flex-column gap-2">
+            <label class="font-bold">Perfil de Acesso</label>
+            <p-selectButton [options]="roles"
+                [ngModel]="formData().role"
+                (ngModelChange)="formData.set({...formData(), role: $event})"
+                optionLabel="label" optionValue="value" class="custom-select-button" />
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-end gap-3 pt-2">
+            <p-button label="Cancelar" [text]="true" severity="secondary" (click)="close()" />
+            <p-button label="Salvar Usuário" icon="pi pi-user-plus"
+                      [loading]="loading()" [disabled]="!isFormValid()"
+                      (click)="save()" severity="success" />
+        </div>
+    </ng-template>
+</p-dialog>

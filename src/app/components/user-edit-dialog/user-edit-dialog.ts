@@ -5,7 +5,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { UserResponse, UserUpdateRequest } from '../../models/user.model';
-import { UserService } from '../../services/UserService';
+import { UserService } from '../../services/account/UserService';
 import { PasswordModule } from 'primeng/password';
 
 @Component({
@@ -24,7 +24,7 @@ export class UserEditDialog {
       this.userId = data.id;
       this.editData.set({
         name: data.name,
-        username: data.username, 
+        username: data.username,
         password: ''
       });
     }

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../services/UserService';
+import { UserService } from '../../services/account/UserService';
 import { UserResponse } from '../../models/user.model';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -39,7 +39,7 @@ export class UserList implements OnInit {
   loadUsers(): void {
     this.userService.listUsers().subscribe({
       next: (response) => {
-        this.users.set(response.content);
+        this.users.set(response);
         this.loading.set(false);
       },
       error: (err) => {
