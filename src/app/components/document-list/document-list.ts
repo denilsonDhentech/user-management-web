@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -9,13 +9,14 @@ import { DocumentService } from '../../services/documents/document.service';
 import { DocumentResponse, DocumentFilter, DocumentStatus } from '../../models/documents/document.model';
 import { UserCreateDialog } from '../user-create-dialog/user-create-dialog';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MessageService, MenuItem } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
+import { MenuModule } from 'primeng/menu';
 
 @Component({
   selector: 'app-document-list',
   standalone: true,
-  imports: [CommonModule, TableModule, TagModule, ButtonModule, InputTextModule, FormsModule, UserCreateDialog, TooltipModule],
+  imports: [CommonModule, TableModule, TagModule, ButtonModule, InputTextModule, FormsModule, UserCreateDialog, TooltipModule, MenuModule],
   templateUrl: './document-list.html',
   styleUrl: './document-list.scss'
 })
@@ -23,6 +24,33 @@ export class DocumentList implements OnInit {
   private documentService = inject(DocumentService);
   private router = inject(Router);
   private messageService = inject(MessageService);
+
+  selectedDoc: DocumentResponse | null = null;
+
+  actionMenuItems: MenuItem[] = [
+    {
+      label: 'Ações do Arquivo',
+      items: [
+        {
+          label: 'Baixar',
+          icon: 'pi pi-download',
+          command: () => this.selectedDoc && this.download(this.selectedDoc)
+        },
+        {
+          label: 'Nova Versão',
+          icon: 'pi pi-upload',
+          command: () => this.triggerFileUpload()
+        },
+        {
+          label: 'Histórico',
+          icon: 'pi pi-history',
+          command: () => this.router.navigate(['/documents', this.selectedDoc?.id, 'history'])
+        }
+      ]
+    }
+  ];
+
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   documents = signal<DocumentResponse[]>([]);
   totalRecords = signal(0);
@@ -92,5 +120,36 @@ export class DocumentList implements OnInit {
         });
       }
     });
+  }
+
+  triggerFileUpload() {
+    this.fileInput.nativeElement.click();
+  }
+
+  onNewVersionFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && this.selectedDoc) {
+      this.loading.set(true);
+
+      this.documentService.uploadNewVersion(this.selectedDoc.id, file).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Versão Atualizada',
+            detail: `Nova versão do documento "${this.selectedDoc?.title}" enviada.`
+          });
+          this.loadDocuments();
+          this.fileInput.nativeElement.value = '';
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Falha ao enviar nova versão.'
+          });
+          this.loading.set(false);
+        }
+      });
+    }
   }
 }
