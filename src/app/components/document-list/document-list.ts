@@ -9,17 +9,20 @@ import { DocumentService } from '../../services/documents/document.service';
 import { DocumentResponse, DocumentFilter, DocumentStatus } from '../../models/documents/document.model';
 import { UserCreateDialog } from '../user-create-dialog/user-create-dialog';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-document-list',
   standalone: true,
-  imports: [CommonModule, TableModule, TagModule, ButtonModule, InputTextModule, FormsModule, UserCreateDialog],
+  imports: [CommonModule, TableModule, TagModule, ButtonModule, InputTextModule, FormsModule, UserCreateDialog, TooltipModule],
   templateUrl: './document-list.html',
   styleUrl: './document-list.scss'
 })
 export class DocumentList implements OnInit {
   private documentService = inject(DocumentService);
   private router = inject(Router);
+  private messageService = inject(MessageService);
 
   documents = signal<DocumentResponse[]>([]);
   totalRecords = signal(0);
@@ -64,5 +67,30 @@ export class DocumentList implements OnInit {
 
   goToUpload() {
     this.router.navigate(['/documents/upload']);
+  }
+
+  download(doc: DocumentResponse) {
+    this.documentService.getDownloadUrl(doc.id, doc.versionCount).subscribe({
+      next: (response) => {
+        const downloadUrl = response['url'];
+        if (downloadUrl) {
+          window.open(downloadUrl, '_blank');
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Download',
+            detail: 'Iniciando download do documento...'
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Erro ao obter URL de download:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Não foi possível gerar a URL de download.'
+        });
+      }
+    });
   }
 }
