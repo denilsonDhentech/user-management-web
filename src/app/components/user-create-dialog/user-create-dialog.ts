@@ -70,6 +70,16 @@ export class UserCreateDialog {
   }
 
   save() {
+    if (!this.isFormValid()) return;
 
+    this.loading.set(true);
+    this.userService.createUser(this.formData()).subscribe({
+      next: () => {
+        this.onSave.emit();
+        this.close();
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
   }
 }

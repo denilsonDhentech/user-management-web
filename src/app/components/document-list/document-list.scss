@@ -1,0 +1,33 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap; 
+
+  .buttons-wrapper {
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+  }
+}
+
+.p-input-icon-left {
+  i {
+    color: var(--text-color-secondary);
+  }
+}
+
+:host ::ng-deep {
+  .p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+    background: var(--surface-ground);
+  }
+
+  .text-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+#fileInput {
+  display: none;
+}
