@@ -5,6 +5,9 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
+  username: string;
+  role: string;
+  tenantId: string;
 }
 
 export interface AuthResponse {

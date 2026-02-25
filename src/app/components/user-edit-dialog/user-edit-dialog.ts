@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { UserResponse, UserUpdateRequest } from '../../models/user.model';
 import { UserService } from '../../services/account/UserService';
 import { PasswordModule } from 'primeng/password';
 
@@ -19,27 +18,12 @@ export class UserEditDialog {
   private userService = inject(UserService);
 
   @Input() visible = false;
-  @Input() set user(data: UserResponse | null) {
-    if (data) {
-      this.userId = data.id;
-      this.editData.set({
-        name: data.name,
-        username: data.username,
-        password: ''
-      });
-    }
-  }
 
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() onSave = new EventEmitter<void>();
 
   private userId: string = '';
 
-  editData = signal<UserUpdateRequest>({
-    name: '',
-    username: '',
-    password: ''
-  });
 
   loading = signal(false);
 
@@ -47,20 +31,4 @@ export class UserEditDialog {
     this.visibleChange.emit(false);
   }
 
-  save() {
-    if (!this.userId) return;
-
-    this.loading.set(true);
-    this.userService.updateUser(this.userId, this.editData()).subscribe({
-      next: () => {
-        this.onSave.emit();
-        this.close();
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error('Erro ao atualizar:', err);
-        this.loading.set(false);
-      }
-    });
-  }
 }

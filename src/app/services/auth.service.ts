@@ -16,49 +16,39 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
   private readonly TOKEN_KEY = 'token';
+  private readonly USER_KEY = 'username';
+  private readonly ROLE_KEY = 'role';
 
-  private tokenSignal = signal<string | null>(localStorage.getItem(this.TOKEN_KEY));
+  private tokenSignal = signal<string | null>(sessionStorage.getItem(this.TOKEN_KEY));
+  public userName = signal<string | null>(sessionStorage.getItem(this.USER_KEY));
+  public userRole = signal<string | null>(sessionStorage.getItem(this.ROLE_KEY));
 
   isAuthenticated = computed(() => !!this.tokenSignal());
-
-  userRole = computed(() => {
-    const token = this.tokenSignal();
-    if (!token) return null;
-    try {
-      const decoded = jwtDecode<MyJwtPayload>(token);
-      return decoded.role || null;
-    } catch (error) {
-      return null;
-    }
-  });
-
-  userName = computed(() => {
-    const token = this.tokenSignal();
-    if (!token) return null;
-    try {
-      const decoded = jwtDecode<MyJwtPayload>(token);
-      return decoded.sub || decoded.username || null;
-    } catch {
-      return null;
-    }
-  });
-
   isAdmin = computed(() => this.userRole() === 'ADMIN');
+
+
   isUser = computed(() => this.userRole() === 'USER' || this.userRole() === 'ADMIN');
   isViewer = computed(() => !!this.userRole());
 
-  login(credentials: LoginRequest) {
+login(credentials: LoginRequest) {
     return this.http.post<LoginResponse>('/api/auth/login', credentials).pipe(
       tap(res => {
-        localStorage.setItem(this.TOKEN_KEY, res.token);
+        sessionStorage.setItem(this.TOKEN_KEY, res.token);
+        sessionStorage.setItem(this.USER_KEY, res.username);
+        sessionStorage.setItem(this.ROLE_KEY, res.role);
+
         this.tokenSignal.set(res.token);
+        this.userName.set(res.username);
+        this.userRole.set(res.role);
       })
     );
   }
 
-  logout() {
-    localStorage.removeItem(this.TOKEN_KEY);
+logout() {
+    sessionStorage.clear();
     this.tokenSignal.set(null);
+    this.userName.set(null);
+    this.userRole.set(null);
     this.router.navigate(['/login']);
   }
 }
