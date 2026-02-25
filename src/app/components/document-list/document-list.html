@@ -1,1 +1,53 @@
-<p>document-list works!</p>
+<div class="card p-4">
+    <div class="flex justify-content-between align-items-center mb-4">
+        <h2 class="m-0">Gestão de Documentos</h2>
+        <p-button label="Novo Documento" icon="pi pi-upload" severity="primary" />
+    </div>
+
+    <p-table
+        [value]="documents()"
+        [lazy]="true"
+        (onLazyLoad)="loadDocuments($event.first! / $event.rows!)"
+        [paginator]="true"
+        [rows]="10"
+        [totalRecords]="totalRecords()"
+        [loading]="loading()"
+        [responsiveLayout]="'stack'"
+        class="p-datatable-striped">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Título</th>
+                <th>Status</th>
+                <th>Versões</th>
+                <th>Criado em</th>
+                <th style="width: 8rem">Ações</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-doc>
+            <tr>
+                <td>{{ doc.title }}</td>
+                <td>
+                    <p-tag [value]="doc.status" [severity]="getStatusSeverity(doc.status)" />
+                </td>
+                <td>
+                    <i class="pi pi-copy mr-2"></i>{{ doc.versionCount }}
+                </td>
+                <td>{{ doc.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td>
+                    <div class="flex gap-2">
+                        <p-button icon="pi pi-download" [text]="true" severity="info" pTooltip="Baixar" />
+                        <p-button icon="pi pi-history" [text]="true" severity="secondary" pTooltip="Histórico" />
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5" class="text-center p-4">Nenhum documento encontrado.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
