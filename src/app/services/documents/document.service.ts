@@ -41,4 +41,11 @@ export class DocumentService {
       `${this.API_URL}/${id}/versions/${versionNumber}/download`
     );
   }
+
+  uploadNewVersion(id: string, file: File): Observable<void> {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return this.http.post<void>(`${this.API_URL}/${id}/versions`, formData);
+}
 }
