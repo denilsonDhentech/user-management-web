@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginRequest, LoginResponse } from '../models/auth';
 import { tap } from 'rxjs';
-import { jwtDecode } from 'jwt-decode';
+import { environment } from '../../environments/environment.prod';
 
 interface MyJwtPayload {
   sub?: string;
@@ -15,6 +15,8 @@ interface MyJwtPayload {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private readonly API_URL = `${environment.apiUrl}/api/auth`;
+
   private readonly TOKEN_KEY = 'token';
   private readonly USER_KEY = 'username';
   private readonly ROLE_KEY = 'role';
@@ -31,7 +33,7 @@ export class AuthService {
   isViewer = computed(() => !!this.userRole());
 
 login(credentials: LoginRequest) {
-    return this.http.post<LoginResponse>('/api/auth/login', credentials).pipe(
+    return this.http.post<LoginResponse>(`${this.API_URL}/login`, credentials).pipe(
       tap(res => {
         sessionStorage.setItem(this.TOKEN_KEY, res.token);
         sessionStorage.setItem(this.USER_KEY, res.username);
