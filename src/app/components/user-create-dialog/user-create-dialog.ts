@@ -6,7 +6,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { PasswordModule } from 'primeng/password';
-import { UserUpdateRequest } from '../../models/accounts/user.model';
 import { UserService } from '../../services/account/UserService';
 
 @Component({

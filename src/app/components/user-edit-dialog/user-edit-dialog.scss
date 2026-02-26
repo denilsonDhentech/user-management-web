@@ -1,26 +1,48 @@
-.edit-form-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    padding-top: 1rem;
+:host ::ng-deep {
+    .p-dialog .p-dialog-content {
+        padding: 1.5rem 2.5rem 2rem 2.5rem !important;
+    }
 
     .field {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        width: 100%;
+        margin-bottom: 0.5rem;
 
         label {
-            font-weight: 500;
-            color: #4b5563;
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+            color: #374151;
         }
     }
-}
 
-:host ::ng-deep .p-password {
-    display: flex;
-    width: 100%;
-}
+    .p-password {
+        display: flex !important;
+        width: 100%;
 
-:host ::ng-deep .p-password input {
-    width: 100%;
+        input {
+            width: 100%;
+        }
+    }
+
+    .custom-select-button {
+        display: flex;
+        width: 100%;
+
+        .p-button {
+            flex: 1;
+            justify-content: center;
+            padding: 0.85rem 1rem;
+        }
+    }
+
+    .p-inputtext-lg {
+        padding: 0.75rem 1rem;
+    }
+
+    .p-dialog-footer {
+        padding: 1.5rem 2.5rem !important;
+        border-top: 1px solid #e5e7eb;
+    }
 }

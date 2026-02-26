@@ -26,6 +26,20 @@
     display: flex;
     justify-content: flex-end;
   }
+
+  .p-paginator {
+    justify-content: flex-end;
+    padding: 1rem;
+    background: var(--surface-ground);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    .p-paginator-current {
+      margin-right: auto;
+      font-size: 0.875rem;
+      color: var(--text-color-secondary);
+    }
+  }
 }
 
 #fileInput {
@@ -38,7 +52,7 @@
   margin: 1rem;
   background: var(--surface-card);
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
   .header-container {
     h2 {
@@ -48,7 +62,8 @@
   }
 }
 
-.flex.mb-4, .p-datatable {
+.flex.mb-4,
+.p-datatable {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
 }
@@ -59,5 +74,5 @@
 }
 
 .action-th-custom {
-  width: 5rem
+  width: 5rem;
 }

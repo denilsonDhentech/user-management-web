@@ -14,7 +14,15 @@ export class UserService {
     return this.http.get<UserResponse[]>(this.API_URL);
   }
 
-    createUser(userData: any): Observable<UserResponse> {
+  createUser(userData: any): Observable<UserResponse> {
     return this.http.post<UserResponse>(this.API_URL, userData);
+  }
+
+  updateUser(id: string, userData: any): Observable<UserResponse> {
+    return this.http.put<UserResponse>(`${this.API_URL}/${id}`, userData);
+  }
+
+  deleteUser(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/${id}`);
   }
 }

@@ -41,6 +41,8 @@ export class DocumentList implements OnInit {
   isCreateUserVisible = signal(false);
   isHistoryVisible = signal(false);
 
+  rows = signal(10);
+
   filters = signal<DocumentFilter>({
     title: '',
     status: undefined
@@ -90,9 +92,11 @@ export class DocumentList implements OnInit {
     menu.toggle(event);
   }
 
-  loadDocuments(page: number = 0) {
+  loadDocuments(page: number = 0, size: number = this.rows()) {
     this.loading.set(true);
-    this.documentService.list(this.filters(), page).subscribe({
+    this.rows.set(size);
+
+    this.documentService.list(this.filters(), page, size).subscribe({
       next: (res) => {
         this.documents.set(res.content);
         this.totalRecords.set(res.totalElements);
@@ -100,6 +104,12 @@ export class DocumentList implements OnInit {
       },
       error: () => this.loading.set(false)
     });
+  }
+
+  onPageChange(event: any) {
+    const page = event.first / event.rows;
+    const size = event.rows;
+    this.loadDocuments(page, size);
   }
 
 

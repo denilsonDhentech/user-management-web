@@ -5,7 +5,7 @@ export enum DocumentStatus {
 }
 
 export interface DocumentResponse {
-  id: string; // uuid
+  id: string;
   title: string;
   status: DocumentStatus;
   versionCount: number;
@@ -23,7 +23,7 @@ export interface PageDocumentResponse {
   totalElements: number;
   totalPages: number;
   size: number;
-  number: number; 
+  number: number;
   numberOfElements: number;
   first: boolean;
   last: boolean;

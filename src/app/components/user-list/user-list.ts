@@ -6,20 +6,22 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 
 import { MenuModule } from 'primeng/menu';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
 import { UserResponse } from '../../models/accounts/user.model';
+import { UserEditDialog } from '../user-edit-dialog/user-edit-dialog';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, TagModule, MenuModule],
+  imports: [CommonModule, TableModule, ButtonModule, TagModule, MenuModule, UserEditDialog],
   templateUrl: './user-list.html',
   styleUrl: './user-list.scss'
 })
 export class UserList implements OnInit {
   private userService = inject(UserService);
   private authService = inject(AuthService);
+  private messageService = inject(MessageService);
 
   selectedUser = signal<UserResponse | null>(null);
 
@@ -50,36 +52,36 @@ export class UserList implements OnInit {
   }
 
   onActionClick(event: Event, menu: any, user: UserResponse) {
-      this.selectedUser.set(user);
-      this.setupMenu(user);
-      menu.toggle(event);
+    this.selectedUser.set(user);
+    this.setupMenu(user);
+    menu.toggle(event);
   }
 
 
-setupMenu(user: UserResponse) {
-  const isOwnAccount = user.username === this.authService.userName();
-  const isAdmin = this.authService.isAdmin();
+  setupMenu(user: UserResponse) {
+    const isOwnAccount = user.username === this.authService.userName();
+    const isAdmin = this.authService.isAdmin();
 
-  const actions: MenuItem[] = [
-    {
-      label: 'Editar',
-      icon: 'pi pi-pencil',
-      disabled: !isOwnAccount && !isAdmin,
-      command: () => this.onEdit(user)
+    const actions: MenuItem[] = [
+      {
+        label: 'Editar',
+        icon: 'pi pi-pencil',
+        disabled: !isOwnAccount && !isAdmin,
+        command: () => this.onEdit(user)
+      }
+    ];
+
+    if (isAdmin && !isOwnAccount) {
+      actions.push({
+        label: 'Excluir',
+        icon: 'pi pi-trash',
+        styleClass: 'text-danger',
+        command: () => this.onDelete(user)
+      });
     }
-  ];
 
-  if (isAdmin && !isOwnAccount) {
-    actions.push({
-      label: 'Excluir',
-      icon: 'pi pi-trash',
-      styleClass: 'text-danger',
-      command: () => this.onDelete(user)
-    });
+    this.menuItems.set(actions);
   }
-
-  this.menuItems.set(actions);
-}
 
   onEdit(user: UserResponse | null) {
     if (user) {
@@ -88,11 +90,59 @@ setupMenu(user: UserResponse) {
     }
   }
 
-  onDelete(user: UserResponse | null) {
-    if (user) console.log('Excluindo:', user.id);
-  }
 
   handleSaveSuccess() {
     this.loadUsers();
+  }
+
+  handleSave(updatedData: any): void {
+    const userId = this.selectedUser()?.id;
+
+    if (!userId) return;
+
+    this.userService.updateUser(userId, updatedData).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Usuário atualizado com sucesso!'
+        });
+        this.isEditDialogVisible.set(false);
+        this.loadUsers();
+      },
+      error: (err) => {
+        console.error(err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Não foi possível atualizar o usuário.'
+        });
+      }
+    });
+  }
+
+  onDelete(user: UserResponse | null): void {
+    if (!user || !user.id) return;
+
+    if (confirm(`Deseja realmente excluir o usuário ${user.username}?`)) {
+      this.userService.deleteUser(user.id).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Excluído',
+            detail: 'Usuário removido com sucesso.'
+          });
+          this.loadUsers();
+        },
+        error: (err) => {
+          console.error(err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao tentar excluir usuário.'
+          });
+        }
+      });
+    }
   }
 }
