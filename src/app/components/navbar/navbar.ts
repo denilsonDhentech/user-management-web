@@ -34,6 +34,12 @@ export class Navbar {
         icon: 'pi pi-users',
         routerLink: '/users'
       });
+      
+      menu.push({
+      label: 'Auditoria',
+      icon: 'pi pi-eye',
+      routerLink: '/audit'
+    });
     }
 
     return menu;
