@@ -1,54 +1,49 @@
 :host ::ng-deep {
-    // 1. Ajuste do Container Principal do Dialog
     .p-dialog .p-dialog-content {
-        padding: 1.5rem 2.5rem 2rem 2.5rem !important; // Mais respiro nas laterais
+        padding: 1.5rem 2.5rem 2rem 2.5rem !important;
     }
 
-    // 2. Forçar layout em coluna para os campos
     .field {
         display: flex;
         flex-direction: column;
         width: 100%;
-        margin-bottom: 0.5rem; // Espaço extra entre os blocos
+        margin-bottom: 0.5rem;
 
         label {
             display: block;
-            margin-bottom: 0.75rem; // Aumenta o espaço entre label e input
+            margin-bottom: 0.75rem;
             font-size: 1.05rem;
-            color: #374151; // Cinza text-900
+            color: #374151;
         }
     }
 
-    // 3. Ajuste do Password (O grande vilão do layout quebrado)
     .p-password {
-        display: flex !important; // Força o container a se comportar como flex
+        display: flex !important;
         width: 100%;
 
         input {
-            width: 100%; // Faz o input interno ocupar tudo
+            width: 100%;
         }
     }
 
-    // 4. Ajuste do SelectButton (Perfis de Acesso)
     .custom-select-button {
         display: flex;
         width: 100%;
 
         .p-button {
-            flex: 1; // Faz os botões dividirem o espaço igualmente
+            flex: 1;
             justify-content: center;
-            padding: 0.85rem 1rem; // Botões mais altos e fáceis de clicar
+            padding: 0.85rem 1rem;
         }
     }
 
-    // 5. Ajuste dos Inputs de Texto simples
     .p-inputtext-lg {
-        padding: 0.75rem 1rem; // Maior área de clique
+        padding: 0.75rem 1rem;
     }
 
-    // 6. Rodapé (Footer)
+
     .p-dialog-footer {
         padding: 1.5rem 2.5rem !important;
-        border-top: 1px solid #e5e7eb; // Linha sutil para separar as ações
+        border-top: 1px solid #e5e7eb;
     }
 }

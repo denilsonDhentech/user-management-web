@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import { authGuard } from './auth.guard';
 import { AuthService } from '../services/auth.service';
 import { UrlTree } from '@angular/router';
-import { vi, describe, it, expect, beforeEach } from 'vitest'; // Adicione os imports do Vitest
+import { vi, describe, it, expect, beforeEach } from 'vitest'; 
 
 describe('authGuard', () => {
   let authServiceSpy: any;
   let routerSpy: any;
 
   beforeEach(() => {
-    // No Vitest, criamos mocks assim:
+
     authServiceSpy = {
       isAuthenticated: vi.fn()
     };
@@ -27,7 +27,7 @@ describe('authGuard', () => {
   });
 
   it('deve permitir acesso quando o usuário está autenticado', () => {
-    authServiceSpy.isAuthenticated.mockReturnValue(true); // Sintaxe Vitest
+    authServiceSpy.isAuthenticated.mockReturnValue(true);
 
     const result = TestBed.runInInjectionContext(() => authGuard({} as any, {} as any));
     expect(result).toBe(true);

@@ -17,7 +17,6 @@ import { DocumentVersionResponse } from '../../models/documents/DocumentVersionR
 export class DocumentHistory {
   private documentService = inject(DocumentService);
 
-  // Inputs e Outputs (Signals)
   visible = input.required<boolean>();
   documentId = input<string | null>(null);
   documentTitle = input<string>('');
