@@ -1,10 +1,12 @@
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserList } from './user-list';
 import { UserService } from '../../services/account/UserService';
 import { of } from 'rxjs';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClientTestingModule, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 
 describe('UserList', () => {
   let component: UserList;
@@ -16,10 +18,11 @@ describe('UserList', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [UserList],
+      imports: [UserList, NoopAnimationsModule, HttpClientTestingModule],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
+        MessageService,
         { provide: UserService, useValue: userServiceSpy }
       ]
     }).compileComponents();
