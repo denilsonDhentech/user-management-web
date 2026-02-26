@@ -3,7 +3,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = sessionStorage.getItem('token');
 
-  const isApiUrl = req.url.startsWith('/api');
+  const isApiUrl = req.url.includes('/api');
 
   const isLoginUrl = req.url.includes('/api/auth/login');
 
