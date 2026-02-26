@@ -13,11 +13,12 @@ import { MessageService, MenuItem } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenuModule } from 'primeng/menu';
 import { AuthService } from '../../services/auth.service';
+import { DocumentHistory } from '../document-history/document-history';
 
 @Component({
   selector: 'app-document-list',
   standalone: true,
-  imports: [CommonModule, TableModule, TagModule, ButtonModule, InputTextModule, FormsModule, UserCreateDialog, TooltipModule, MenuModule],
+  imports: [CommonModule, TableModule, TagModule, ButtonModule, InputTextModule, FormsModule, UserCreateDialog, TooltipModule, MenuModule, DocumentHistory],
   templateUrl: './document-list.html',
   styleUrl: './document-list.scss'
 })
@@ -38,6 +39,7 @@ export class DocumentList implements OnInit {
   loading = signal(false);
 
   isCreateUserVisible = signal(false);
+  isHistoryVisible = signal(false);
 
   filters = signal<DocumentFilter>({
     title: '',
@@ -53,7 +55,7 @@ export class DocumentList implements OnInit {
     this.actionMenuItems = [
       { label: 'Baixar', icon: 'pi pi-download', command: () => this.download(this.selectedDoc!) },
       { label: 'Nova Versão', icon: 'pi pi-upload', command: () => this.triggerFileUpload() },
-      { label: 'Histórico', icon: 'pi pi-history', command: () => this.router.navigate(['/documents', this.selectedDoc?.id, 'history']) },
+      { label: 'Histórico', icon: 'pi pi-history', command: () => this.isHistoryVisible.set(true) },
       { separator: true },
       { label: 'Publicar', icon: 'pi pi-check-circle', command: () => this.updateStatus('PUBLISHED') },
       { label: 'Arquivar', icon: 'pi pi-box', command: () => this.updateStatus('ARCHIVED') }
@@ -118,8 +120,9 @@ export class DocumentList implements OnInit {
     this.router.navigate(['/documents/upload']);
   }
 
-  download(doc: DocumentResponse) {
-    this.documentService.getDownloadUrl(doc.id, doc.versionCount).subscribe({
+  download(doc: DocumentResponse, versionNumber?: number) {
+    const version = versionNumber ?? doc.versionCount;
+    this.documentService.getDownloadUrl(doc.id, version).subscribe({
       next: (response) => {
         const downloadUrl = response['url'];
         if (downloadUrl) {
@@ -128,7 +131,7 @@ export class DocumentList implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Download',
-            detail: 'Iniciando download do documento...'
+            detail: `Iniciando download da versão v${version}`
           });
         }
       },
@@ -192,5 +195,11 @@ export class DocumentList implements OnInit {
         this.loading.set(false);
       }
     });
+  }
+
+  downloadVersion(version: number) {
+    if (this.selectedDoc) {
+      this.download(this.selectedDoc, version);
+    }
   }
 }
