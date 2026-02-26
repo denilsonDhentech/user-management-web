@@ -2,6 +2,25 @@
 
 Este repositório contém o front-end do sistema de **Gestão Eletrônica de Documentos (GED)**, desenvolvido em **Angular 21**. A aplicação oferece uma interface moderna, reativa e segura para o gerenciamento do ciclo de vida de documentos, usuários e trilhas de auditoria.
 
+## 📋 Sumário
+- [📂 GED Document Manager - Web Client](#-ged-document-manager---web-client)
+  - [📋 Sumário](#-sumário)
+  - [🚀 Tecnologias de Ponta](#-tecnologias-de-ponta)
+  - [✨ Funcionalidades Implementadas](#-funcionalidades-implementadas)
+    - [📄 Gestão de Documentos (MVP 4.2.B)](#-gestão-de-documentos-mvp-42b)
+    - [👥 Administração de Usuários](#-administração-de-usuários)
+    - [🔍 Auditoria (MVP 4.2.D)](#-auditoria-mvp-42d)
+  - [⚙️ Configuração e Execução](#️-configuração-e-execução)
+    - [Pré-requisitos](#pré-requisitos)
+    - [Passo a Passo](#passo-a-passo)
+  - [🔑 Credenciais de Acesso](#-credenciais-de-acesso)
+  - [🧪 Estratégia de Testes](#-estratégia-de-testes)
+- [Executar testes unitários (Vitest)](#executar-testes-unitários-vitest)
+    - [🔍 Verificação de Auditoria (MVP 4.2.D)](#-verificação-de-auditoria-mvp-42d)
+  - [🧠 Decisões de Projeto](#-decisões-de-projeto)
+  - [🛠 Troubleshooting (Resolução de Problemas)](#-troubleshooting-resolução-de-problemas)
+    - [O Front-end não consegue falar com o Back-end?](#o-front-end-não-consegue-falar-com-o-back-end)
+
 ---
 
 ## 🚀 Tecnologias de Ponta
@@ -52,6 +71,17 @@ Para garantir a melhor experiência em hardware de alta performance e monitores 
 
 Nota sobre Proxy: O projeto está configurado via proxy.conf.json para redirecionar automaticamente chamadas de /api para o backend Java, evitando erros de CORS.
 
+## 🔑 Credenciais de Acesso 
+
+Para validar o controle de permissões (**RBAC**) e as funcionalidades exclusivas de cada nível de acesso, utilize as contas abaixo:
+  
+| Perfil | Usuário | Senha | Acessos Exclusivos |
+| :--- | :--- | :--- | :--- |
+| **ADMIN** | `admin` | `admin123` | Gestão de Usuários e Trilha de Auditoria |
+| **USER** | `dhenSouza` | `user123` | Gestão de Documentos e Upload de Versões |
+
+> **Dica de Teste:** Ao logar como **ADMIN**, note que o menu lateral e as ações de edição de usuários estarão visíveis. Ao logar como **USER**, essas opções são ocultadas automaticamente pela lógica de Signals e Guards do Angular.
+
 ## 🧪 Estratégia de Testes
 A suíte de testes foi desenhada para garantir a estabilidade do pipeline de CI/CD:
 
@@ -74,6 +104,22 @@ Mocks: Uso de HttpClientTestingModule e MessageService mocks para isolamento de 
     * **guards/**: Lógica de proteção de rotas (Auth/Admin).
     * **interceptors/**: Interceptação de requisições para anexar o JWT.
     * **styles/**: Global SCSS e customização de temas PrimeNG.
+
+---
+### 🔍 Verificação de Auditoria (MVP 4.2.D)
+
+O sistema registra automaticamente todas as ações críticas para garantir a integridade e rastreabilidade dos documentos. Para testar o fluxo completo:
+
+1. Realize o **Login** com qualquer usuário.
+2. Execute ações como: **Criar um Documento**, **Fazer Upload de uma Nova Versão** ou **Baixar um Arquivo**.
+3. Acesse a conta de **ADMIN** (`admin/admin123`).
+4. Navegue até o menu **Auditoria**.
+
+**O que você verá:**
+- Registro em tempo real de eventos como `DOCUMENT_CREATED`, `FILE_UPLOADED` e `FILE_DOWNLOADED`.
+- O nome do usuário que realizou a ação e o *timestamp* exato.
+- O campo **Metadata (JSON)** contendo detalhes técnicos da operação, visualizável através do Popover interativo que implementamos.
+---
 
 ## 🧠 Decisões de Projeto
 * Shared Models: As interfaces do Angular espelham rigorosamente os Records do Java 21 para evitar inconsistências de dados.
