@@ -23,9 +23,12 @@
   </div>
 
 
-  <p-table [value]="documents()" [lazy]="true" (onLazyLoad)="loadDocuments($event.first! / $event.rows!)"
-    [paginator]="true" [rows]="10" [totalRecords]="totalRecords()" [loading]="loading()" [responsiveLayout]="'stack'"
-    styleClass="p-datatable-striped">
+  <p-table [value]="documents()" [lazy]="true" (onLazyLoad)="onPageChange($event)" [paginator]="true" [rows]="rows()"
+    [rowsPerPageOptions]="[5, 10, 20, 50]" [totalRecords]="totalRecords()" [loading]="loading()"
+    paginatorPosition="bottom" class="p-datatable-striped"
+    currentPageReportTemplate="Exibindo documentos de {first} a {last} ( total de {totalRecords} ) "
+    [showCurrentPageReport]="true">
+
 
     <ng-template pTemplate="header">
       <tr>
@@ -67,9 +70,6 @@
 <app-user-create-dialog [(visible)]="isCreateUserVisible" (onSave)="loadDocuments()">
 </app-user-create-dialog>
 
-<app-document-history
-  [visible]="isHistoryVisible()"
-  [documentId]="selectedDoc?.id ?? null"
-  [documentTitle]="selectedDoc?.title ?? ''"
-  (onClose)="isHistoryVisible.set(false)"
+<app-document-history [visible]="isHistoryVisible()" [documentId]="selectedDoc?.id ?? null"
+  [documentTitle]="selectedDoc?.title ?? ''" (onClose)="isHistoryVisible.set(false)"
   (onDownload)="downloadVersion($event)" />
