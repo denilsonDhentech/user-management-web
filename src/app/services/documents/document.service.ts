@@ -6,6 +6,7 @@ import {
   DocumentResponse,
   DocumentFilter
 } from '../../models/documents/document.model';
+import { DocumentVersionResponse } from '../../models/documents/DocumentVersionResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,9 +44,13 @@ export class DocumentService {
   }
 
   uploadNewVersion(id: string, file: File): Observable<void> {
-  const formData = new FormData();
-  formData.append('file', file);
+    const formData = new FormData();
+    formData.append('file', file);
 
-  return this.http.post<void>(`${this.API_URL}/${id}/versions`, formData);
-}
+    return this.http.post<void>(`${this.API_URL}/${id}/versions`, formData);
+  }
+
+  getVersionHistory(id: string): Observable<DocumentVersionResponse[]> {
+    return this.http.get<DocumentVersionResponse[]>(`${this.API_URL}/${id}/versions/history`);
+  }
 }
