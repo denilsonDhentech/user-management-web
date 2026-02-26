@@ -4,4 +4,10 @@ export interface UserResponse {
   role: string;
   tenantId: string;
 }
-export interface UserUpdateRequest{}
+
+export interface UpdateAccountRequest{
+  username: string;
+  password: string;
+  role: string;
+  tenantId: string;
+}

@@ -44,3 +44,9 @@
     </div>
   }
 </div>
+
+<app-user-edit-dialog
+  [(visible)]="isEditDialogVisible"
+  [user]="selectedUser()"
+  (onSave)="handleSave($event)">
+</app-user-edit-dialog>
