@@ -3,11 +3,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuditLogResponse } from '../../models/audit/audit.model';
 import { PageResponse } from '../../models/shared/page.model';
+import { environment } from '../../../environments/environment.prod';
+
 
 @Injectable({ providedIn: 'root' })
 export class AuditService {
   private http = inject(HttpClient);
-  private readonly API_URL = '/api/audit';
+  private readonly API_URL = `${environment.apiUrl}/api/audit`;
 
   getLogs(page: number = 0, size: number = 20): Observable<PageResponse<AuditLogResponse>> {
     const params = new HttpParams()

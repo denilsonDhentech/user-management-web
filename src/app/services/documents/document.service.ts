@@ -7,13 +7,14 @@ import {
   DocumentFilter
 } from '../../models/documents/document.model';
 import { DocumentVersionResponse } from '../../models/documents/DocumentVersionResponse.model';
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
   private http = inject(HttpClient);
-  private readonly API_URL = '/api/documents';
+  private readonly API_URL = `${environment.apiUrl}/api/documents`;
 
   list(filter: DocumentFilter, page: number = 0, size: number = 10): Observable<PageDocumentResponse> {
     let params = new HttpParams()
