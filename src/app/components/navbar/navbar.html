@@ -9,31 +9,25 @@
     <div class="flex align-items-center gap-3">
 
       @if (authService.isAuthenticated()) {
-        <div class="flex flex-column align-items-end line-height-2 mr-1">
-          <span class="font-bold text-sm white-space-nowrap">{{ authService.userName() }}</span>
-          <p-tag
-            [value]="authService.userRole() ?? undefined"
-            [severity]="$any(authService.isAdmin() ? 'success' : 'info')"
-            [rounded]="true"
-            styleClass="text-xs py-0 px-2" />
-        </div>
+      <div class="flex flex-column align-items-end line-height-2 mr-1">
+        <span class="font-bold text-sm white-space-nowrap text-white">{{ authService.userName() }}</span>
+        <p-tag [value]="authService.userRole() ?? undefined"
+          [severity]="$any(authService.isAdmin() ? 'success' : 'info')" [rounded]="true"
+          class="text-xs py-0 px-2 p-tag-custom" />
+      </div>
       }
 
       <div class="flex align-items-center gap-2">
-        <p-button
+        <!-- Implementações futuras -->
+        <!-- <p-button
           [icon]="app.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
           (onClick)="toggleTheme()"
           [rounded]="true"
           [text]="true"
           [severity]="$any(buttonSeverity())"
-          pTooltip="Alternar Tema" />
+          pTooltip="Alternar Tema" /> -->
 
-        <p-button
-          label="Sair"
-          icon="pi pi-sign-out"
-          severity="danger"
-          [text]="true"
-          (onClick)="logout()" />
+        <p-button label="Sair" icon="pi pi-sign-out" severity="danger" [text]="true" (onClick)="logout()" />
       </div>
 
     </div>
