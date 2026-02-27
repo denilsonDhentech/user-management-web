@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginRequest, LoginResponse } from '../models/auth';
 import { tap } from 'rxjs';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 interface MyJwtPayload {
   sub?: string;
