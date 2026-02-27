@@ -7,7 +7,7 @@ import {
   DocumentFilter
 } from '../../models/documents/document.model';
 import { DocumentVersionResponse } from '../../models/documents/DocumentVersionResponse.model';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
