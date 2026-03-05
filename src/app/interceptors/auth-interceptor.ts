@@ -8,7 +8,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = sessionStorage.getItem('token');
 
-  const isApiUrl = req.url.startsWith(environment.apiUrl);
+  const cleanApiUrl = environment.apiUrl.replace(/\/$/, '');
+
+  const isApiUrl = req.url.includes(cleanApiUrl);
   const isLoginUrl = req.url.includes('/api/auth/login');
 
   let authReq = req;
