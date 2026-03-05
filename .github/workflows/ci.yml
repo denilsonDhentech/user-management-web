@@ -1,9 +1,9 @@
 name: CI - User Management Web
 
 on:
-  pull_request:
-    branches: [ "main" ]
   push:
+    branches: [ "**" ]
+  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -24,3 +24,6 @@ jobs:
 
     - name: Run Tests
       run: npm test -- --watch=false
+
+    - name: Build Project
+      run: npm run build
