@@ -1,21 +1,33 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
   const token = sessionStorage.getItem('token');
 
-const isApiUrl = req.url.startsWith(environment.apiUrl);
-
+  const isApiUrl = req.url.startsWith(environment.apiUrl);
   const isLoginUrl = req.url.includes('/api/auth/login');
 
+  let authReq = req;
+
   if (token && isApiUrl && !isLoginUrl) {
-    const cloned = req.clone({
+    authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
-    return next(cloned);
   }
 
-  return next(req);
+  return next(authReq).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        console.warn('Token expirado ou inválido. Redirecionando para login...');
+        authService.logout();
+      }
+      return throwError(() => error);
+    })
+  );
 };
